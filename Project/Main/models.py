@@ -2,17 +2,18 @@ from django.db import models
 from django.conf import settings
 
 # Create your models here.
-def upload_location(instance, filename):
-	return "%s/%s" %(instance.user.username, filename)
 
 
 class Profile(models.Model):
+	def upload_location(instance, filename):
+		return "%s/%s" %(instance.user.username, filename)
 	user=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE)
 	image=models.ImageField(upload_to=upload_location,null=True,blank=True,)
 	location=models.TextField(default="Not mentioned")
 	points=models.IntegerField(default=0)
 	questions=models.IntegerField(default=0)
 	answers=models.IntegerField(default=0)
+	
 
 	def __str__(self):
 		return self.user.username
